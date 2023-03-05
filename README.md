@@ -1,2 +1,2 @@
 # Maze-Anthony
-Maze solution for VK Intership
+Данный php проект решает введенный лабиринт, и выводит картинку с решением лабиринта
