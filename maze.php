@@ -84,7 +84,10 @@ class Maze {
     }
     return $vars;
   }
-
+  public function get_length(){
+    $label = $this->END;
+    return $this->correct_way[$label->x][$label->y];
+  }
   public function pathfind()
     {
     while ($this->stack->getLength() !== 0) {
@@ -103,46 +106,49 @@ class Maze {
     }
 
   public function solution() {
-  $this->pathfind();
-  $label = $this->END;
-  array_push($this->correct_way, new Cell($label->x, $label->y));
-  $min = $this->paths[$label->x][$label->y];
-
-  while ($label != $this->START) {
-    $x = 0;
-    $y = 0;
-    if ($label->x + 1 < $this->HEIGHT && isset($this->paths[$label->x+1][$label->y])) {
-      if ($this->paths[$label->x+1][$label->y] < $min) {
-        $min = $this->paths[$label->x+1][$label->y];
-        $x = 1;
-        $y = 0;
-      }
-    }
-    if ($label->x - 1 > -1 && isset($this->paths[$label->x-1][$label->y])) {
-      if ($this->paths[$label->x-1][$label->y] < $min) {
-        $min = $this->paths[$label->x-1][$label->y];
-        $x = -1;
-        $y = 0;
-      }
-    }
-    if ($label->y + 1 < $this->LENGTH && isset($this->paths[$label->x][$label->y+1])) {
-      if ($this->paths[$label->x][$label->y+1] < $min) {
-        $min = $this->paths[$label->x][$label->y+1];
-        $y = 1;
-        $x = 0;
-      }
-    }
-    if ($label->y - 1 > -1 && isset($this->paths[$label->x][$label->y-1])) {
-      if ($this->paths[$label->x][$label->y-1] < $min) {
-        $min = $this->paths[$label->x][$label->y-1];
-        $y = -1;
-        $x = 0;
-      }
-    }
-    $label->x += $x;
-    $label->y += $y;
+    $this->pathfind();
+    if ($this->is_solved()){
+    
+    $label = new Cell($this->END->x,$this->END->y);
     $this->correct_way[$label->x][$label->y]=$this->paths[$label->x][$label->y];
-    //array_push($this->correct_way, new Cell($label->x, $label->y));
+    $min = $this->paths[$label->x][$label->y];
+
+    while ($label != $this->START) {
+      $x = 0;
+      $y = 0;
+      if ($label->x + 1 < $this->HEIGHT && isset($this->paths[$label->x+1][$label->y])) {
+        if ($this->paths[$label->x+1][$label->y] < $min) {
+          $min = $this->paths[$label->x+1][$label->y];
+          $x = 1;
+          $y = 0;
+        }
+      }
+      if ($label->x - 1 > -1 && isset($this->paths[$label->x-1][$label->y])) {
+        if ($this->paths[$label->x-1][$label->y] < $min) {
+          $min = $this->paths[$label->x-1][$label->y];
+          $x = -1;
+          $y = 0;
+        }
+      }
+      if ($label->y + 1 < $this->LENGTH && isset($this->paths[$label->x][$label->y+1])) {
+        if ($this->paths[$label->x][$label->y+1] < $min) {
+          $min = $this->paths[$label->x][$label->y+1];
+          $y = 1;
+          $x = 0;
+        }
+      }
+      if ($label->y - 1 > -1 && isset($this->paths[$label->x][$label->y-1])) {
+        if ($this->paths[$label->x][$label->y-1] < $min) {
+          $min = $this->paths[$label->x][$label->y-1];
+          $y = -1;
+          $x = 0;
+        }
+      }
+      $label->x += $x;
+      $label->y += $y;
+      $this->correct_way[$label->x][$label->y]=$this->paths[$label->x][$label->y];
+      //array_push($this->correct_way, new Cell($label->x, $label->y));
+    }
   }
 }
   public function get_correct_way() {
@@ -154,7 +160,15 @@ class Maze {
       }
       return $output;
   }
+  public function is_solved(){
+    if ($this->paths[$this->END->x][$this->END->y]){
+      return True;
+    }else{
+      return False;
+    }
+  }
   public function get_way_img($scale=8){
+
     $image = imagecreatetruecolor($this->HEIGHT*$scale, $this->LENGTH*$scale);
 
     $white = imagecolorallocate($image, 255, 255, 255);
@@ -187,13 +201,6 @@ class Maze {
     imagepng($image,'solution.png');
     // Освобождаем память, занимаемую изображением
     imagedestroy($image);
-  }
-  public function get_length(){
-    $last=$this->END;
-    $x=$last->x;
-    $y=$last->y;
-    echo $this->paths[2];
-    return $this->paths[$x][$y];
   }
 }
 

@@ -16,7 +16,7 @@
     <form method="post" action="">
         <label for="arr">Введите двумерный массив, вводите значения через запяту, каждую строку на новой строке:</label>
         <br>
-        <textarea name="arr" id="arr" rows="5" cols="50"></textarea>
+        <textarea name="arr" id="arr" rows="10" cols="20"></textarea>
         <br>
         <label for="x1">Введите координату x1:</label>
         <input type="number" name="x1" id="x1">
@@ -51,18 +51,22 @@
                     $output_row[] = intval(trim($element));
                 }
                 $output[] = $output_row;
-            }
-
+            } 
             $START=new Cell(intval($_POST['x1']),intval($_POST['y1']));
             $END=new Cell(intval($_POST['x2']),intval($_POST['y2']));
             if ($output[$START->x][$START->y]!==0 && $output[$END->x][$END->y]!==0 ){
                 $maze=new Maze($output,$START,$END);
                 $maze->solution();
-                $maze->get_way_img(100);
-                echo "<img src='/solution.png' class='frame'>";
-                echo "<br>";
+                if ($maze->is_solved()){
+                    $maze->get_way_img(100);
+                    echo "<img src='solution.png' class='frame'>";
+                    echo "<br>";
+                    echo "Длина пути: ".$maze->get_length();
+                }else{
+                    echo "Нет ответа";
+                }
             }else{
-                echo "Нет варианта";
+                    echo "Нет варианта";
             }
             }
         }
