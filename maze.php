@@ -188,17 +188,12 @@ class Maze {
     // Освобождаем память, занимаемую изображением
     imagedestroy($image);
   }
-  public function print_maze(){
-    for($i=0;$i<count($this->maze);$i++){
-      for($j=0;$j<count($this->maze[$i]);$j++){
-        if ($this->paths[$i][$j]){
-          echo sprintf("%' 3d",$this->paths[$i][$j]);
-        }else{
-          echo "[|]";
-        }
-      }
-      echo "<br>";
-    }
+  public function get_length(){
+    $last=$this->END;
+    $x=$last->x;
+    $y=$last->y;
+    echo $this->paths[2];
+    return $this->paths[$x][$y];
   }
 }
 

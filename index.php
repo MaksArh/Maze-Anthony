@@ -12,7 +12,7 @@
     <header>
         <h1>Решатель Антон</h1>
     </header>
-        
+    
     <form method="post" action="">
         <label for="arr">Введите двумерный массив, вводите значения через запяту, каждую строку на новой строке:</label>
         <br>
@@ -37,29 +37,36 @@
     <?php
     require_once("mazeUtils.php");
     require_once("maze.php");
-
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Получаем массив из POST-запроса
         $input = $_POST['arr'];
-        $rows = explode("\n", $input);
-        $output = array();
-        foreach ($rows as $row) {
-            $row = trim($row);
-            $elements = explode(",", $row);
-            $output_row = array();
-            foreach ($elements as $element) {
-                $output_row[] = intval(trim($element));
+        if ($input!==''){
+            $rows = explode("\n", $input);
+            $output = array();
+            foreach ($rows as $row) {
+                $row = trim($row);
+                $elements = explode(",", $row);
+                $output_row = array();
+                foreach ($elements as $element) {
+                    $output_row[] = intval(trim($element));
+                }
+                $output[] = $output_row;
             }
-            $output[] = $output_row;
-        }
 
-        $START=new Cell(intval($_POST['x1']),intval($_POST['y1']));
-        $END=new Cell(intval($_POST['x2']),intval($_POST['y2']));
-        $maze=new Maze($output,$START,$END);
-        $maze->solution();
-        $maze->get_way_img(100);
-        echo "<img src='/solution.png' class='frame'>";
+            $START=new Cell(intval($_POST['x1']),intval($_POST['y1']));
+            $END=new Cell(intval($_POST['x2']),intval($_POST['y2']));
+            if ($output[$START->x][$START->y]!==0 && $output[$END->x][$END->y]!==0 ){
+                $maze=new Maze($output,$START,$END);
+                $maze->solution();
+                $maze->get_way_img(100);
+                echo "<img src='/solution.png' class='frame'>";
+                echo "<br>";
+            }else{
+                echo "Нет варианта";
+            }
+            }
         }
     ?>
+
 </body>
 </html>
