@@ -181,7 +181,7 @@ class Maze {
       }
     }
 
-    $image=imagerotate($image, 90, 0);
+    $image=imagerotate($image, -90, 0);
     imageflip($image, IMG_FLIP_HORIZONTAL);
     // Отображаем изображение в браузере
     imagepng($image,'solution.png');
