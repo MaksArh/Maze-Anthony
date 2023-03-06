@@ -1,1 +1,13 @@
+/*body{
+    background-color: #282c34!important;
+    color: #b6bdca !important;
+}*/
 
+.frame {
+    border: 10px solid black;
+}
+.content{
+
+    border-radius: 20px; 
+    background-color: #353b45;
+}
