@@ -104,7 +104,7 @@
                                 $maze = new Maze($output, $START, $END);
                                 $maze->solution();
                                 if ($maze->is_solved()) {
-                                    //$maze->get_way_img(128);
+                                    $maze->get_way_img(128);
                                     echo "<h4 class='text-center'>Длина пути: " .$maze->get_length() ."</h4>";
                                     echo "<h6>Ответ вида r-вправо,d-вниз,l-влево,u-вверх :</h6><h6>[".$maze->compass_map."]</h6>";
                                     echo "<img src='img/solution.png' class='mx-auto d-block img-fluid frame'><br>";
