@@ -208,8 +208,8 @@ class Maze
     public function get_way_img($scale = 8)
     {
         $image = imagecreatetruecolor(
-            $this->HEIGHT * $scale,
-            $this->LENGTH * $scale
+            $this->LENGTH * $scale,
+            $this->HEIGHT * $scale
         );
 
         $white = imagecolorallocate($image, 255, 255, 255);
@@ -218,10 +218,10 @@ class Maze
 
         imagefill($image, 0, 0, $black);
 
-        for ($i = 0; $i < $this->HEIGHT; $i++) {
-            for ($j = 0; $j < $this->LENGTH; $j++) {
-                if ($this->maze[$i][$j] !== 0) {
-                    if ($this->correct_way[$i][$j]) {
+        for ($i = 0; $i < $this->LENGTH; $i++) {
+            for ($j = 0; $j < $this->HEIGHT; $j++) {
+                if ($this->maze[$j][$i] !== 0) {
+                    if ($this->correct_way[$j][$i]) {
                         $color = $green;
                     } else {
                         $color = $white;
@@ -238,9 +238,6 @@ class Maze
                 }
             }
         }
-
-        $image = imagerotate($image, -90, 0);
-        imageflip($image, IMG_FLIP_HORIZONTAL);
         imagepng($image, "img/solution.png");
         imagedestroy($image);
     }
